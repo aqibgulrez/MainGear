@@ -1,0 +1,283 @@
+<div class="posrel">
+  <div class="row">
+    <div class="col-xs-12 text-right">
+      <div class="btn-group btn-group-vertical pricing-toggles" data-toggle="buttons">
+        <label class="btn active toggle-relative">
+          <input type="checkbox" checked="checked" class="ignore"><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-dot-circle-o fa-2x"></i> <span>Show Relative Prices</span>
+        </label>
+        <label class="btn active toggle-absolute">
+          <input type="checkbox" checked="checked" class="ignore"><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-dot-circle-o fa-2x"></i> <span>Show Absolute Prices</span>
+        </label>
+      </div>
+    </div>
+    {#foreach $T.Steps as stepouter}
+    <div id="Step{$T.stepouter$index+3}" class="col-md-12" {#if $T.stepouter$index==0 } style="display:block;" {#else} style="display:none;" {#/if}>
+      <div class="col-md-12 col-sm-12 text-center animated ">
+        <div class="transparent-box">
+        <ul class="tabs">
+            {#foreach $T.Steps as step}
+            <li><a href="javascript:" onclick="ShowStep('#Step{$T.step$index+3}')" {#if $T.step$index==$T.stepouter$index} class="active" {#/if}>Step {$T.step$index+1} {$T.step.Title} </a></li>
+            {#/for}
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-12 col-sm-12 text-center animated">
+        <div class="loader-container">
+          <div class="loader-bar" style="width: 0">
+          </div>
+        </div>
+      </div>
+      <div class="wrapper margin-bottom-30">
+        <div class="col-md-9 col-sm-12">
+          <!-- ////////////////////////////////////////////////////////////////////// -->
+          <!-- Product View [section based layout] -->
+          {#foreach $T.Sections as sections} 
+          {#if $T.sections.RenderModeID == 1 && $T.sections.ProductStepID == $T.stepouter.ProductStepID}
+          <div class="product-view clearfix" data-sectionpricing="{$T.sections.PricingID}" data-sectionname="{$T.sections.Title}" data-sectionrequired="{$T.sections.IsRequired}">
+            <div class="left-container">
+              <div class="col-md-5 col-sm-5 animated">
+                <div class="row item-wrap" data-subsectionname="{$T.subsections.Title}">
+                  <h3>{$T.sections.Title}:</h3>
+                  <div class="btn-group btn-group-vertical" data-toggle="buttons">
+                    {#foreach $T.sections.SubSections as subsections}
+                     {#foreach $T.subsections.SubSectionItems as subsectionitems} 
+                     {#if $T.subsectionitems.DisplayMode == "Radio"}
+                    <!-- display radio -->
+                    {#if $T.subsectionitems.IsQuantity == true}
+                    <!-- with spinner -->
+                    <div class="spinner-input spinner-step" style="display: none;" data-step="{$T.subsectionitems.QuantityIncrement}" data-quantityrequired="{$T.subsectionitems.IsQuantityRequired}">
+                      <input name="value" value="1">
+                    </div>
+                    {#/if}
+                    <label class="btn {#if $T.subsectionitems.IsQuantity == true} label-with-spinner {#/if} {#if $T.subsectionitems.IsDefault == true}active default-item{#/if}" data-choices="{#if $T.subsectionitems.Options != ""}true{#else}false{#/if}">
+                      <input type="radio" class="checkset add-on " data-price="{$T.subsectionitems.BTOItem.WebPrice}" data-itemid="{$T.subsectionitems.SectionItemID}"  data-sectionitemoptionid="-1" data-wholesaleid="{$T.subsectionitems.WholesaleID}" data-processingtime="{$T.subsectionitems.ProcessingTime}" {#if $T.subsectionitems.IsDefault==true }checked{#/if} name="{$T.sections.Title}" data-tags="{#foreach $T.subsectionitems.ItemTags as taglist}{$T.taglist.TagText}|{#/for}" data-filters="{#foreach $T.subsectionitems.ItemFilters as filterlist}{$T.filterlist.SectionName}_{$T.filterlist.Tag}_{$T.filterlist.FilterType}|{#/for}"><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-dot-circle-o fa-2x"></i> <span>{$T.subsectionitems.BTOItem.ProductTitle}</span>{#if $T.subsectionitems.RecommendationID!==1 } <span data-toggle="tooltip" title="{#if $T.subsectionitems.RecommendationID==2 }Good{#elseif $T.subsectionitems.RecommendationID==3}Better{#elseif $T.subsectionitems.RecommendationID==4}Best{#/if}"><i class="fa fa-paperclip" aria-hidden="true"></i></span> {#/if}
+                      <span class="price-shor"></span>
+                    </label>
+                    {#if $T.subsectionitems.Options != ""}
+                    <div class="multi-BTO-select {#if $T.subsectionitems.IsDefault == false}hide{#/if}">
+                      {$T.subsectionitems.Options[0].OptionName} :
+                      <select class="form-control">
+                        {#foreach $T.subsectionitems.Options as options}
+                        <option sectionitemoptionid="{$T.options.SectionItemOptionID}">{$T.options.OptionChoice}</option>
+                        {#/for}
+                      </select>
+                    </div>
+                    {#/if} {#else}
+                    <!-- display checkbox -->
+                  </div>
+                  <div class="btn-group btn-group-vertical" data-toggle="buttons">
+                    {#if $T.subsectionitems.IsQuantity == true}
+                    <!-- with spinner -->
+                    <div class="spinner-input spinner-step" style="display: none;" data-step="{$T.subsectionitems.QuantityIncrement}" data-quantityrequired="{$T.subsectionitems.IsQuantityRequired}">
+                      <input name="value" value="1"> </div> {#/if}
+                    <label class="btn {#if $T.subsectionitems.IsQuantity == true}label-with-spinner{#/if} {#if $T.subsectionitems.IsDefault == true}active default-item{#/if}" data-choices="{#if $T.subsectionitems.Options != ""}true{#else}false{#/if}">
+                      <input type="checkbox" {#if $T.subsectionitems.IsDefault==true }checked{#/if} class="add-on" data-price="{$T.subsectionitems.BTOItem.WebPrice}" data-itemid="{$T.subsectionitems.SectionItemID}"  data-sectionitemoptionid="-1" data-wholesaleid="{$T.subsectionitems.WholesaleID}" data-processingtime="{$T.subsectionitems.ProcessingTime}" data-tags="{#foreach $T.subsectionitems.ItemTags as taglist}{$T.taglist.TagText}|{#/for}" data-filters="{#foreach $T.subsectionitems.ItemFilters as filterlist}{$T.filterlist.SectionName}_{$T.filterlist.Tag}_{$T.filterlist.FilterType}|{#/for}"><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-dot-circle-o fa-2x"></i> <span>{$T.subsectionitems.BTOItem.ProductTitle}</span>{#if $T.subsectionitems.RecommendationID!==1 } <span data-toggle="tooltip" title="{#if $T.subsectionitems.RecommendationID==2 }Good{#elseif $T.subsectionitems.RecommendationID==3}Better{#elseif $T.subsectionitems.RecommendationID==4}Best{#/if}"><i class="fa fa-paperclip" aria-hidden="true"></i></span> {#/if}
+                      <span class="price-shor"></span>
+                    </label>
+                    {#if $T.subsectionitems.Options != ""}
+                    <div class="multi-BTO-select {#if $T.subsectionitems.IsDefault == false}hide{#/if}">
+                      {$T.subsectionitems.Options[0].OptionName} :
+                      <select class="form-control">
+                        {#foreach $T.subsectionitems.Options as options}
+                        <option sectionitemoptionid="{$T.options.SectionItemOptionID}">{$T.options.OptionChoice}</option>
+                        {#/for}
+                      </select>
+                    </div>
+                    {#/if}
+                  </div>
+                  <div class="btn-group btn-group-vertical" data-toggle="buttons">
+                    {#/if} {#/for} {#/for}
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-7 col-sm-7 animated text-center img-column">
+                {#foreach $T.sections.Instructions as instructions} {#if $T.instructions.LongDescription.length>0}
+                <a href="javascript:void()" onclick="showlightbox('popup{$T.sections.SectionID}');" class="learnmore-btn">Learn More</a>
+                <!-- Popup -->
+                <div id="popup{$T.sections.SectionID}" class="popupbox" style="display: none;">
+                  <div class="popup-outer">
+                    <div class="popup-inner featherlight">
+                      <div id="top"></div>
+                      <span class="featherlight-close-icon featherlight-close" onclick="closepopup('popup{$T.sections.SectionID}')">✕</span>
+                      <div class="instructions-wrap">
+                        {$T.instructions.LongDescription}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {#/if} {#/for}
+                <div class="img-wrap">
+                  <img src="{javascript:IMAGE_ROOT_URL}/{$T.sections.ImageName}" class="image-responsive"> </div>
+              </div>
+            </div>
+          </div>
+          {#/if} {#/for}
+          <!-- END Product View -->
+          <!-- ////////////////////////////////////////////////////////////////////// -->
+          <!-- List View -->
+          {#foreach $T.Sections as sections} {#if $T.sections.RenderModeID == 3 && $T.sections.ProductStepID == $T.stepouter.ProductStepID }
+          <div class="build-box" data-sectionpricing="{$T.sections.PricingID}" data-sectionname="{$T.sections.Title}" data-sectionrequired="{$T.sections.IsRequired}">
+            {#foreach $T.sections.Instructions as instructions} {#if $T.instructions.LongDescription.length>0}
+            <a href="javascript:void()" onclick="showlightbox('popup{$T.sections.SectionID}');" class="learnmore-btn">Learn More</a>
+            <!-- Popup -->
+            <div id="popup{$T.sections.SectionID}" class="popupbox" style="display: none;">
+              <div class="popup-outer">
+                <div class="popup-inner featherlight">
+                  <div id="top"></div>
+                  <span class="featherlight-close-icon featherlight-close" onclick="closepopup('popup{$T.sections.SectionID}')">✕</span>
+                  <div class="instructions-wrap">
+                    {$T.instructions.LongDescription}
+                  </div>
+                </div>
+              </div>
+            </div>
+            {#/if} {#/for}
+            <div class="col-md-2">
+              <img src="{javascript:IMAGE_ROOT_URL}/{$T.sections.ImageName}" class="image-responsive">
+            </div>
+            <div class="col-md-10">
+              <h3 class="heading">{$T.sections.Title}</h3>
+              <p class="description">{$T.sections.Description}</p>
+              {#foreach $T.sections.SubSections as subsections}
+              <div class="item-wrap" data-subsectionname="{$T.subsections.Title}">
+                <h6>{$T.subsections.Title}</h6> {#foreach $T.subsections.SubSectionItems as subsectionitems}
+                <div class="btn-group btn-group-vertical" data-toggle="buttons">
+                  <!-- display radio -->
+                  {#if $T.subsectionitems.DisplayMode == "Radio"}
+                  <!-- with spinner -->
+                  {#if $T.subsectionitems.IsQuantity == true}
+                  <div class="spinner-input spinner-step" style="display: none;" data-step="{$T.subsectionitems.QuantityIncrement}" data-quantityrequired="{$T.subsectionitems.IsQuantityRequired}">
+                    <input name="value" value="1">
+                  </div>
+                  {#/if}
+                  <label class="btn {#if $T.subsectionitems.IsQuantity == true}label-with-spinner{#/if} {#if $T.subsectionitems.IsDefault == true}active default-item{#/if}" data-choices="{#if $T.subsectionitems.Options != ""}true{#else}false{#/if}">
+                    <input type="radio" {#if $T.subsectionitems.IsDefault==true }checked{#/if} name="{#if $T.subsections.Title!=="" }{$T.subsections.Title}{#else}{$T.sections.Title}{#/if}" class="add-on" data-price="{$T.subsectionitems.BTOItem.WebPrice}" data-itemid="{$T.subsectionitems.SectionItemID}"  data-sectionitemoptionid="-1" data-wholesaleid="{$T.subsectionitems.WholesaleID}" data-processingtime="{$T.subsectionitems.ProcessingTime}" data-tags="{#foreach $T.subsectionitems.ItemTags as taglist}{$T.taglist.TagText}|{#/for}" data-filters="{#foreach $T.subsectionitems.ItemFilters as filterlist}{$T.filterlist.SectionName}_{$T.filterlist.Tag}_{$T.filterlist.FilterType}|{#/for}"><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-dot-circle-o fa-2x"></i> <span>
+                    {$T.subsectionitems.BTOItem.ProductTitle} </span> {#if $T.subsectionitems.RecommendationID!==1 } <span data-toggle="tooltip" title="{#if $T.subsectionitems.RecommendationID==2 }Good{#elseif $T.subsectionitems.RecommendationID==3}Better{#elseif $T.subsectionitems.RecommendationID==4}Best{#/if}"><i class="fa fa-paperclip" aria-hidden="true"></i></span> {#/if}
+                    <span class="price-shor"></span>
+                  </label> {#if $T.subsectionitems.Options != ""}
+                  <div class="multi-BTO-select {#if $T.subsectionitems.IsDefault == false}hide{#/if}">
+                    {$T.subsectionitems.Options[0].OptionName} :
+                    <select class="form-control">
+                      {#foreach $T.subsectionitems.Options as options}
+                      <option sectionitemoptionid="{$T.options.SectionItemOptionID}">{$T.options.OptionChoice}</option>
+                      {#/for}
+                    </select>
+                  </div>
+                  {#/if}
+                  <!-- else display radio -->
+                  {#else}
+                  <!-- display checkbox -->
+                  <!-- with spinner -->
+                  {#if $T.subsectionitems.IsQuantity == true}
+                  <div class="spinner-input spinner-step" style="display: none;" data-step="{$T.subsectionitems.QuantityIncrement}" data-quantityrequired="{$T.subsectionitems.IsQuantityRequired}">
+                    <input name="value" value="1">
+                  </div>
+                  {#/if}
+                  <label class="btn {#if $T.subsectionitems.IsQuantity == true}label-with-spinner{#/if} {#if $T.subsectionitems.IsDefault == true} active default-item{#/if}" data-choices="{#if $T.subsectionitems.Options != ""}true{#else}false{#/if}">
+                    <input type="checkbox" {#if $T.subsectionitems.IsDefault==true }checked{#/if} name='{#if $T.subsections.Title!==" }{$T.subsections.Title}{#else}{$T.sections.Title}{#/if}' class="add-on" data-price="{$T.subsectionitems.BTOItem.WebPrice}" data-itemid="{$T.subsectionitems.SectionItemID}"  data-sectionitemoptionid="-1" data-wholesaleid="{$T.subsectionitems.WholesaleID}" data-processingtime="{$T.subsectionitems.ProcessingTime}" data-tags="{#foreach $T.subsectionitems.ItemTags as taglist}{$T.taglist.TagText}|{#/for}" data-filters="{#foreach $T.subsectionitems.ItemFilters as filterlist}{$T.filterlist.SectionName}_{$T.filterlist.Tag}_{$T.filterlist.FilterType}|{#/for}"><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-dot-circle-o fa-2x"></i> <span>{$T.subsectionitems.BTOItem.ProductTitle}</span> {#if $T.subsectionitems.RecommendationID!==1 } <span data-toggle="tooltip" title="{#if $T.subsectionitems.RecommendationID==2 }Good{#elseif $T.subsectionitems.RecommendationID==3}Better{#elseif $T.subsectionitems.RecommendationID==4}Best{#/if}"><i class="fa fa-paperclip" aria-hidden="true"></i></span> {#/if}
+                    <span class="price-shor"></span>
+                  </label> {#if $T.subsectionitems.Options != ""}
+                  <div class="multi-BTO-select {#if $T.subsectionitems.IsDefault == false}hide{#/if}">
+                    {$T.subsectionitems.Options[0].OptionName} :
+                    <select class="form-control">
+                      {#foreach $T.subsectionitems.Options as options}
+                      <option sectionitemoptionid="{$T.options.SectionItemOptionID}">{$T.options.OptionChoice}</option>
+                      {#/for}
+                    </select>
+                  </div>
+                  {#/if} {#/if} </div>
+                <div class="clearfix"></div>
+                {#if} {#/for} {#/for}</div> {#/for}
+            </div>
+          </div>{#/for}{#/for}
+          <!-- END List View -->
+          <!-- ////////////////////////////////////////////////////////////////////// -->
+          <!-- Comparison View -->
+          {#foreach $T.Sections as sections} {#if $T.sections.RenderModeID == 2 && $T.sections.ProductStepID == $T.stepouter.ProductStepID}
+          <div class="left-container" style="padding: 0px;">
+            <div class="col-md-4 col-sm-12 animated text-center">
+              <div class="technology-box-head">
+                <div class="col-md-5">
+                  <a href="#" onclick="showlightbox('popup1');"><img src="{javascript:IMAGE_ROOT_URL}/step3-processor1.png" class="image-responsive"></a>
+                </div>
+                <div class="col-md-7">
+                  <div class="row align-left">
+                    <h1> Stock: Z170</h1> <a href="#" class="redbutton" onclick="ShowStep('#Step5')">select</a>
+                  </div>
+                </div>
+              </div>
+              <div class="technology-box-body">
+                <ul>
+                  <li>Custom Loop Liquid</li>
+                  <li>Cooling Available</li>
+                  <li>Intel Skylake 4 </li>
+                  <li>Core Processors</li>
+                  <li>Supports Overclocking</li>
+                  <li>Single Graphics Card</li>
+                  <li>Dual Channel DDR4 Ram</li>
+                  <li>Recommended for</li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-12 animated text-center">
+              <div class="technology-box-head">
+                <div class="col-md-5">
+                  <a href="#" onclick="showlightbox('popup1'); "><img src="{javascript:IMAGE_ROOT_URL}/step3-processor2.png" class="image-responsive"></a>
+                </div>
+                <div class="col-md-7">
+                  <div class="row align-left">
+                    <h1> Stock: X99</h1>
+                    <a href="#" class="redbutton" onclick="ShowStep('#Step5')">select</a>
+                  </div>
+                </div>
+              </div>
+              <div class="technology-box-body">
+                <ul>
+                  <li>Custom Loop Liquid</li>
+                  <li>Cooling Available</li>
+                  <li>Intel Skylake 4 </li>
+                  <li>Core Processors</li>
+                  <li>Supports Overclocking</li>
+                  <li>Single Graphics Card</li>
+                  <li>Dual Channel DDR4 Ram</li>
+                  <li>Recommended for</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          {#/if} {#/for}
+          <!-- END Comparison View -->
+        </div>
+        <div class="col-md-3 col-sm-12 animated">
+          <div class="right-container" style="width: 100%;">
+            <img src="{javascript:WIDGET_ROOT_URL}images/drift.png" style="margin-top: 15px; margin-bottom: 15px;">
+            <div class="col-md-12 border-bottom">
+              <div class="row">
+                <div class="col-md-12">
+                  <p>SUBTOTAL:</p>
+                  <h4 id="subtotal">$0</h4>
+                </div>
+                <div class="col-md-12">
+                  <p>EST. SHIP DATE:</p>
+                  <h4 class="estdate">11/16</h4>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="row">
+                {#if $T.stepouter$index==$T.Steps.length-1}
+                <a class="redbutton redbutton-large" onclick="finish();">Finish</a> {#else} <a class="redbutton redbutton-large" {#if $T.stepouter$index<$T.Steps.length-1} onclick="ShowStep('#Step{$T.stepouter$index+4}')" {#/if}>Continue</a> {#/if}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {#/for}
+  </div>
+  <div class="row">
+    <div class="loader-wrap">
+      <div class="loader">Loading...</div>
+    </div>
+  </div>
+</div>

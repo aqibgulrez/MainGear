@@ -1,0 +1,819 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MainGearWidgetModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AdminUsers">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BTOItems">
+          <Key>
+            <PropertyRef Name="BTOItemID" />
+          </Key>
+          <Property Name="BTOItemID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductTitle" Type="varchar(max)" />
+          <Property Name="Brand" Type="varchar(max)" />
+          <Property Name="WebPrice" Type="varchar" MaxLength="1000" />
+          <Property Name="PartNo" Type="varchar" MaxLength="1000" />
+          <Property Name="ManufacturerPartNo" Type="varchar" MaxLength="1000" />
+          <Property Name="GeneralImage" Type="varchar(max)" />
+          <Property Name="ApplicationSpecificImage" Type="varchar(max)" />
+          <Property Name="MainCategory" Type="varchar" MaxLength="1000" />
+          <Property Name="SubCategory" Type="varchar" MaxLength="1000" />
+          <Property Name="SectionCategory" Type="varchar" MaxLength="1000" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="Specification" Type="varchar(max)" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="ProductID" Type="varchar" MaxLength="10" />
+          <Property Name="PrimaryOptionTitle" Type="nvarchar" MaxLength="100" />
+          <Property Name="PrimaryOptionValue" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="ItemFilters">
+          <Key>
+            <PropertyRef Name="ItemFilterID" />
+          </Key>
+          <Property Name="ItemFilterID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SectionItemID" Type="bigint" Nullable="false" />
+          <Property Name="SectionName" Type="varchar" MaxLength="200" />
+          <Property Name="Tag" Type="varchar" MaxLength="200" />
+          <Property Name="FilterType" Type="varchar" MaxLength="200" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ItemTags">
+          <Key>
+            <PropertyRef Name="ItemTagID" />
+          </Key>
+          <Property Name="ItemTagID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SectionItemID" Type="bigint" Nullable="false" />
+          <Property Name="TagID" Type="bigint" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OrderItems">
+          <Key>
+            <PropertyRef Name="OrderItemID" />
+          </Key>
+          <Property Name="OrderItemID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderID" Type="bigint" Nullable="false" />
+          <Property Name="SectionItemID" Type="bigint" Nullable="false" />
+          <Property Name="BTOItemID" Type="bigint" Nullable="false" />
+          <Property Name="WholesaleID" Type="bigint" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="ItemPrice" Type="decimal" Precision="7" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Pricings">
+          <Key>
+            <PropertyRef Name="PricingID" />
+          </Key>
+          <Property Name="PricingID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductInstructions">
+          <Key>
+            <PropertyRef Name="ProductInstructionID" />
+          </Key>
+          <Property Name="ProductInstructionID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductID" Type="bigint" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="ShortDescription" Type="varchar" MaxLength="500" />
+          <Property Name="LongDescription" Type="varchar(max)" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="bigint" Nullable="false" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ModifiedBy" Type="bigint" />
+        </EntityType>
+        <EntityType Name="ProductOrder">
+          <Key>
+            <PropertyRef Name="OrderID" />
+          </Key>
+          <Property Name="OrderID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TotalPrice" Type="decimal" Precision="7" Scale="2" Nullable="false" />
+          <Property Name="ShippingDate" Type="date" Nullable="false" />
+          <Property Name="PlacedOn" Type="datetime" Nullable="false" />
+          <Property Name="OrderStatus" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="ProductID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="bigint" Nullable="false" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ModifiedBy" Type="bigint" />
+          <Property Name="DisplayOrder" Type="int" Nullable="false" />
+          <Property Name="IsMaster" Type="bit" />
+        </EntityType>
+        <EntityType Name="ProductSteps">
+          <Key>
+            <PropertyRef Name="ProductStepID" />
+          </Key>
+          <Property Name="ProductStepID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="ProductID" Type="bigint" Nullable="false" />
+          <Property Name="DisplayOrder" Type="int" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="bigint" Nullable="false" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ModifiedBy" Type="bigint" />
+        </EntityType>
+        <EntityType Name="Recommendations">
+          <Key>
+            <PropertyRef Name="RecommendationID" />
+          </Key>
+          <Property Name="RecommendationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RenderModes">
+          <Key>
+            <PropertyRef Name="RenderModeID" />
+          </Key>
+          <Property Name="RenderModeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SectionInstructions">
+          <Key>
+            <PropertyRef Name="SectionInstructionID" />
+          </Key>
+          <Property Name="SectionInstructionID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SectionID" Type="bigint" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="ShortDescription" Type="varchar" MaxLength="500" />
+          <Property Name="LongDescription" Type="varchar(max)" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="bigint" Nullable="false" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ModifiedBy" Type="bigint" />
+        </EntityType>
+        <EntityType Name="SectionItemOptions">
+          <Key>
+            <PropertyRef Name="SectionItemOptionID" />
+          </Key>
+          <Property Name="SectionItemOptionID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SectionItemID" Type="bigint" Nullable="false" />
+          <Property Name="BTOItemID" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SectionItems">
+          <Key>
+            <PropertyRef Name="SectionItemID" />
+          </Key>
+          <Property Name="SectionItemID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BTOItemID" Type="bigint" Nullable="false" />
+          <Property Name="WholesaleID" Type="bigint" Nullable="false" />
+          <Property Name="SubSectionID" Type="bigint" Nullable="false" />
+          <Property Name="DisplayOrder" Type="bigint" Nullable="false" />
+          <Property Name="DisplayMode" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="ProcessingTime" Type="int" Nullable="false" />
+          <Property Name="RecommendationID" Type="int" Nullable="false" />
+          <Property Name="IsQuantity" Type="bit" Nullable="false" />
+          <Property Name="IsQuantityRequired" Type="bit" Nullable="false" />
+          <Property Name="QuantityIncrement" Type="int" Nullable="false" />
+          <Property Name="IsDefault" Type="bit" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="bigint" Nullable="false" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ModifiedBy" Type="bigint" />
+          <Property Name="IsMaster" Type="bit" />
+          <Property Name="TagText" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Sections">
+          <Key>
+            <PropertyRef Name="SectionID" />
+          </Key>
+          <Property Name="SectionID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="500" />
+          <Property Name="ImageName" Type="varchar" MaxLength="250" />
+          <Property Name="ProductID" Type="bigint" Nullable="false" />
+          <Property Name="PricingID" Type="int" Nullable="false" />
+          <Property Name="ProductStepID" Type="bigint" Nullable="false" />
+          <Property Name="RenderModeID" Type="int" Nullable="false" />
+          <Property Name="IsRequired" Type="bit" Nullable="false" />
+          <Property Name="DisplayOrder" Type="bigint" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="bigint" Nullable="false" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ModifiedBy" Type="bigint" />
+          <Property Name="IsMaster" Type="bit" />
+        </EntityType>
+        <EntityType Name="SubSections">
+          <Key>
+            <PropertyRef Name="SubSectionID" />
+          </Key>
+          <Property Name="SubSectionID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="SectionID" Type="bigint" Nullable="false" />
+          <Property Name="DisplayOrder" Type="bigint" Nullable="false" />
+          <Property Name="CreatedBy" Type="bigint" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedBy" Type="bigint" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="IsMaster" Type="bit" />
+        </EntityType>
+        <EntityType Name="Tags">
+          <Key>
+            <PropertyRef Name="TagID" />
+          </Key>
+          <Property Name="TagID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TagText" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Wholesales">
+          <Key>
+            <PropertyRef Name="WholesaleID" />
+          </Key>
+          <Property Name="WholesaleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="500" />
+          <Property Name="LevelName" Type="varchar" MaxLength="200" />
+          <Property Name="Price" Type="varchar" MaxLength="50" />
+          <Property Name="PartNumber" Type="varchar" MaxLength="100" />
+          <Property Name="ManufacturePartNumber" Type="varchar" MaxLength="100" />
+          <Property Name="Brand" Type="varchar" MaxLength="200" />
+          <Property Name="ProductID" Type="varchar" MaxLength="50" />
+          <Property Name="Discount" Type="varchar" MaxLength="50" />
+          <Property Name="DiscountType" Type="varchar" MaxLength="100" />
+          <Property Name="CreatedOn" Type="datetime" />
+        </EntityType>
+        <EntityContainer Name="MainGearWidgetModelStoreContainer">
+          <EntitySet Name="AdminUsers" EntityType="Self.AdminUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BTOItems" EntityType="Self.BTOItems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ItemFilters" EntityType="Self.ItemFilters" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ItemTags" EntityType="Self.ItemTags" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderItems" EntityType="Self.OrderItems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pricings" EntityType="Self.Pricings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductInstructions" EntityType="Self.ProductInstructions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductOrder" EntityType="Self.ProductOrder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductSteps" EntityType="Self.ProductSteps" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Recommendations" EntityType="Self.Recommendations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RenderModes" EntityType="Self.RenderModes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SectionInstructions" EntityType="Self.SectionInstructions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SectionItemOptions" EntityType="Self.SectionItemOptions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SectionItems" EntityType="Self.SectionItems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sections" EntityType="Self.Sections" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SubSections" EntityType="Self.SubSections" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tags" EntityType="Self.Tags" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Wholesales" EntityType="Self.Wholesales" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MainGearWidgetModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AdminUser">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ItemFilter">
+          <Key>
+            <PropertyRef Name="ItemFilterID" />
+          </Key>
+          <Property Name="ItemFilterID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SectionItemID" Type="Int64" Nullable="false" />
+          <Property Name="SectionName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Tag" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="FilterType" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Int64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ItemTag">
+          <Key>
+            <PropertyRef Name="ItemTagID" />
+          </Key>
+          <Property Name="ItemTagID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SectionItemID" Type="Int64" Nullable="false" />
+          <Property Name="TagID" Type="Int64" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="Pricing">
+          <Key>
+            <PropertyRef Name="PricingID" />
+          </Key>
+          <Property Name="PricingID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductInstruction">
+          <Key>
+            <PropertyRef Name="ProductInstructionID" />
+          </Key>
+          <Property Name="ProductInstructionID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductID" Type="Int64" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ShortDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="LongDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Int64" Nullable="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="Int64" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="ProductID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Int64" Nullable="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="Int64" />
+          <Property Name="DisplayOrder" Type="Int32" Nullable="false" />
+          <Property Name="IsMaster" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="ProductStep">
+          <Key>
+            <PropertyRef Name="ProductStepID" />
+          </Key>
+          <Property Name="ProductStepID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProductID" Type="Int64" Nullable="false" />
+          <Property Name="DisplayOrder" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Int64" Nullable="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="Int64" />
+        </EntityType>
+        <EntityType Name="Recommendation">
+          <Key>
+            <PropertyRef Name="RecommendationID" />
+          </Key>
+          <Property Name="RecommendationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RenderMode">
+          <Key>
+            <PropertyRef Name="RenderModeID" />
+          </Key>
+          <Property Name="RenderModeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SectionInstruction">
+          <Key>
+            <PropertyRef Name="SectionInstructionID" />
+          </Key>
+          <Property Name="SectionInstructionID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SectionID" Type="Int64" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ShortDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="LongDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Int64" Nullable="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="Int64" />
+        </EntityType>
+        <EntityType Name="SectionItem">
+          <Key>
+            <PropertyRef Name="SectionItemID" />
+          </Key>
+          <Property Name="SectionItemID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BTOItemID" Type="Int64" Nullable="false" />
+          <Property Name="WholesaleID" Type="Int64" Nullable="false" />
+          <Property Name="SubSectionID" Type="Int64" Nullable="false" />
+          <Property Name="DisplayOrder" Type="Int64" Nullable="false" />
+          <Property Name="DisplayMode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProcessingTime" Type="Int32" Nullable="false" />
+          <Property Name="RecommendationID" Type="Int32" Nullable="false" />
+          <Property Name="IsQuantity" Type="Boolean" Nullable="false" />
+          <Property Name="IsQuantityRequired" Type="Boolean" Nullable="false" />
+          <Property Name="QuantityIncrement" Type="Int32" Nullable="false" />
+          <Property Name="IsDefault" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Int64" Nullable="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="Int64" />
+          <Property Name="IsMaster" Type="Boolean" />
+          <Property Name="TagText" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Section">
+          <Key>
+            <PropertyRef Name="SectionID" />
+          </Key>
+          <Property Name="SectionID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ImageName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="ProductID" Type="Int64" Nullable="false" />
+          <Property Name="PricingID" Type="Int32" Nullable="false" />
+          <Property Name="ProductStepID" Type="Int64" Nullable="false" />
+          <Property Name="RenderModeID" Type="Int32" Nullable="false" />
+          <Property Name="IsRequired" Type="Boolean" Nullable="false" />
+          <Property Name="DisplayOrder" Type="Int64" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Int64" Nullable="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="Int64" />
+          <Property Name="IsMaster" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="SubSection">
+          <Key>
+            <PropertyRef Name="SubSectionID" />
+          </Key>
+          <Property Name="SubSectionID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SectionID" Type="Int64" Nullable="false" />
+          <Property Name="DisplayOrder" Type="Int64" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int64" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="Int64" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="IsMaster" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Tag">
+          <Key>
+            <PropertyRef Name="TagID" />
+          </Key>
+          <Property Name="TagID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TagText" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="Wholesale">
+          <Key>
+            <PropertyRef Name="WholesaleID" />
+          </Key>
+          <Property Name="WholesaleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="LevelName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Price" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PartNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ManufacturePartNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Brand" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ProductID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Discount" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DiscountType" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityContainer Name="MainGearWidgetEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AdminUsers" EntityType="Self.AdminUser" />
+          <EntitySet Name="ItemFilters" EntityType="Self.ItemFilter" />
+          <EntitySet Name="ItemTags" EntityType="Self.ItemTag" />
+          <EntitySet Name="Pricings" EntityType="Self.Pricing" />
+          <EntitySet Name="ProductInstructions" EntityType="Self.ProductInstruction" />
+          <EntitySet Name="Products" EntityType="Self.Product" />
+          <EntitySet Name="ProductSteps" EntityType="Self.ProductStep" />
+          <EntitySet Name="Recommendations" EntityType="Self.Recommendation" />
+          <EntitySet Name="RenderModes" EntityType="Self.RenderMode" />
+          <EntitySet Name="SectionInstructions" EntityType="Self.SectionInstruction" />
+          <EntitySet Name="SectionItems" EntityType="Self.SectionItem" />
+          <EntitySet Name="Sections" EntityType="Self.Section" />
+          <EntitySet Name="SubSections" EntityType="Self.SubSection" />
+          <EntitySet Name="Tags" EntityType="Self.Tag" />
+          <EntitySet Name="Wholesales" EntityType="Self.Wholesale" />
+          <EntitySet Name="ProductOrders" EntityType="MainGearWidgetModel.ProductOrder" />
+          <EntitySet Name="OrderItems" EntityType="MainGearWidgetModel.OrderItem" />
+          <EntitySet Name="BTOItems" EntityType="MainGearWidgetModel.BTOItem" />
+          <EntitySet Name="SectionItemOptions" EntityType="MainGearWidgetModel.SectionItemOption" />
+        </EntityContainer>
+        <EntityType Name="ProductOrder">
+          <Key>
+            <PropertyRef Name="OrderID" />
+          </Key>
+          <Property Name="OrderID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TotalPrice" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="ShippingDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="PlacedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="OrderStatus" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="OrderItem">
+          <Key>
+            <PropertyRef Name="OrderItemID" />
+          </Key>
+          <Property Name="OrderItemID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderID" Type="Int64" Nullable="false" />
+          <Property Name="SectionItemID" Type="Int64" Nullable="false" />
+          <Property Name="BTOItemID" Type="Int64" Nullable="false" />
+          <Property Name="WholesaleID" Type="Int64" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="ItemPrice" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+        </EntityType>
+        <EntityType Name="BTOItem">
+          <Key>
+            <PropertyRef Name="BTOItemID" />
+          </Key>
+          <Property Name="BTOItemID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductTitle" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Brand" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="WebPrice" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="PartNo" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="ManufacturerPartNo" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="GeneralImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ApplicationSpecificImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="MainCategory" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="SubCategory" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="SectionCategory" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Specification" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="ProductID" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="PrimaryOptionTitle" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PrimaryOptionValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="SectionItemOption">
+          <Key>
+            <PropertyRef Name="SectionItemOptionID" />
+          </Key>
+          <Property Name="SectionItemOptionID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SectionItemID" Type="Int64" Nullable="false" />
+          <Property Name="BTOItemID" Type="Int64" Nullable="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MainGearWidgetModelStoreContainer" CdmEntityContainer="MainGearWidgetEntities">
+          <EntitySetMapping Name="AdminUsers">
+            <EntityTypeMapping TypeName="MainGearWidgetModel.AdminUser">
+              <MappingFragment StoreEntitySet="AdminUsers">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ItemFilters">
+            <EntityTypeMapping TypeName="MainGearWidgetModel.ItemFilter">
+              <MappingFragment StoreEntitySet="ItemFilters">
+                <ScalarProperty Name="ItemFilterID" ColumnName="ItemFilterID" />
+                <ScalarProperty Name="SectionItemID" ColumnName="SectionItemID" />
+                <ScalarProperty Name="SectionName" ColumnName="SectionName" />
+                <ScalarProperty Name="Tag" ColumnName="Tag" />
+                <ScalarProperty Name="FilterType" ColumnName="FilterType" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ItemTags">
+            <EntityTypeMapping TypeName="MainGearWidgetModel.ItemTag">
+              <MappingFragment StoreEntitySet="ItemTags">
+                <ScalarProperty Name="ItemTagID" ColumnName="ItemTagID" />
+                <ScalarProperty Name="SectionItemID" ColumnName="SectionItemID" />
+                <ScalarProperty Name="TagID" ColumnName="TagID" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pricings">
+            <EntityTypeMapping TypeName="MainGearWidgetModel.Pricing">
+              <MappingFragment StoreEntitySet="Pricings">
+                <ScalarProperty Name="PricingID" ColumnName="PricingID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductInstructions">
+            <EntityTypeMapping TypeName="MainGearWidgetModel.ProductInstruction">
+              <MappingFragment StoreEntitySet="ProductInstructions">
+                <ScalarProperty Name="ProductInstructionID" ColumnName="ProductInstructionID" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ShortDescription" ColumnName="ShortDescription" />
+                <ScalarProperty Name="LongDescription" ColumnName="LongDescription" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="MainGearWidgetModel.Product">
+              <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+                <ScalarProperty Name="IsMaster" ColumnName="IsMaster" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductSteps">
+            <EntityTypeMapping TypeName="MainGearWidgetModel.ProductStep">
+              <MappingFragment StoreEntitySet="ProductSteps">
+                <ScalarProperty Name="ProductStepID" ColumnName="ProductStepID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Recommendations">
+            <EntityTypeMapping TypeName="MainGearWidgetModel.Recommendation">
+              <MappingFragment StoreEntitySet="Recommendations">
+                <ScalarProperty Name="RecommendationID" ColumnName="RecommendationID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RenderModes">
+            <EntityTypeMapping TypeName="MainGearWidgetModel.RenderMode">
+              <MappingFragment StoreEntitySet="RenderModes">
+                <ScalarProperty Name="RenderModeID" ColumnName="RenderModeID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SectionInstructions">
+            <EntityTypeMapping TypeName="MainGearWidgetModel.SectionInstruction">
+              <MappingFragment StoreEntitySet="SectionInstructions">
+                <ScalarProperty Name="SectionInstructionID" ColumnName="SectionInstructionID" />
+                <ScalarProperty Name="SectionID" ColumnName="SectionID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ShortDescription" ColumnName="ShortDescription" />
+                <ScalarProperty Name="LongDescription" ColumnName="LongDescription" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SectionItems">
+            <EntityTypeMapping TypeName="MainGearWidgetModel.SectionItem">
+              <MappingFragment StoreEntitySet="SectionItems">
+                <ScalarProperty Name="SectionItemID" ColumnName="SectionItemID" />
+                <ScalarProperty Name="BTOItemID" ColumnName="BTOItemID" />
+                <ScalarProperty Name="WholesaleID" ColumnName="WholesaleID" />
+                <ScalarProperty Name="SubSectionID" ColumnName="SubSectionID" />
+                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+                <ScalarProperty Name="DisplayMode" ColumnName="DisplayMode" />
+                <ScalarProperty Name="ProcessingTime" ColumnName="ProcessingTime" />
+                <ScalarProperty Name="RecommendationID" ColumnName="RecommendationID" />
+                <ScalarProperty Name="IsQuantity" ColumnName="IsQuantity" />
+                <ScalarProperty Name="IsQuantityRequired" ColumnName="IsQuantityRequired" />
+                <ScalarProperty Name="QuantityIncrement" ColumnName="QuantityIncrement" />
+                <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="IsMaster" ColumnName="IsMaster" />
+                <ScalarProperty Name="TagText" ColumnName="TagText" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sections">
+            <EntityTypeMapping TypeName="MainGearWidgetModel.Section">
+              <MappingFragment StoreEntitySet="Sections">
+                <ScalarProperty Name="SectionID" ColumnName="SectionID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ImageName" ColumnName="ImageName" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="PricingID" ColumnName="PricingID" />
+                <ScalarProperty Name="ProductStepID" ColumnName="ProductStepID" />
+                <ScalarProperty Name="RenderModeID" ColumnName="RenderModeID" />
+                <ScalarProperty Name="IsRequired" ColumnName="IsRequired" />
+                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="IsMaster" ColumnName="IsMaster" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubSections">
+            <EntityTypeMapping TypeName="MainGearWidgetModel.SubSection">
+              <MappingFragment StoreEntitySet="SubSections">
+                <ScalarProperty Name="SubSectionID" ColumnName="SubSectionID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="SectionID" ColumnName="SectionID" />
+                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="IsMaster" ColumnName="IsMaster" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tags">
+            <EntityTypeMapping TypeName="MainGearWidgetModel.Tag">
+              <MappingFragment StoreEntitySet="Tags">
+                <ScalarProperty Name="TagID" ColumnName="TagID" />
+                <ScalarProperty Name="TagText" ColumnName="TagText" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Wholesales">
+            <EntityTypeMapping TypeName="MainGearWidgetModel.Wholesale">
+              <MappingFragment StoreEntitySet="Wholesales">
+                <ScalarProperty Name="WholesaleID" ColumnName="WholesaleID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="LevelName" ColumnName="LevelName" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="PartNumber" ColumnName="PartNumber" />
+                <ScalarProperty Name="ManufacturePartNumber" ColumnName="ManufacturePartNumber" />
+                <ScalarProperty Name="Brand" ColumnName="Brand" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="DiscountType" ColumnName="DiscountType" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductOrders">
+            <EntityTypeMapping TypeName="MainGearWidgetModel.ProductOrder">
+              <MappingFragment StoreEntitySet="ProductOrder">
+                <ScalarProperty Name="OrderStatus" ColumnName="OrderStatus" />
+                <ScalarProperty Name="PlacedOn" ColumnName="PlacedOn" />
+                <ScalarProperty Name="ShippingDate" ColumnName="ShippingDate" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderItems">
+            <EntityTypeMapping TypeName="MainGearWidgetModel.OrderItem">
+              <MappingFragment StoreEntitySet="OrderItems">
+                <ScalarProperty Name="ItemPrice" ColumnName="ItemPrice" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="WholesaleID" ColumnName="WholesaleID" />
+                <ScalarProperty Name="BTOItemID" ColumnName="BTOItemID" />
+                <ScalarProperty Name="SectionItemID" ColumnName="SectionItemID" />
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+                <ScalarProperty Name="OrderItemID" ColumnName="OrderItemID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BTOItems">
+            <EntityTypeMapping TypeName="MainGearWidgetModel.BTOItem">
+              <MappingFragment StoreEntitySet="BTOItems">
+                <ScalarProperty Name="PrimaryOptionValue" ColumnName="PrimaryOptionValue" />
+                <ScalarProperty Name="PrimaryOptionTitle" ColumnName="PrimaryOptionTitle" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="Specification" ColumnName="Specification" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="SectionCategory" ColumnName="SectionCategory" />
+                <ScalarProperty Name="SubCategory" ColumnName="SubCategory" />
+                <ScalarProperty Name="MainCategory" ColumnName="MainCategory" />
+                <ScalarProperty Name="ApplicationSpecificImage" ColumnName="ApplicationSpecificImage" />
+                <ScalarProperty Name="GeneralImage" ColumnName="GeneralImage" />
+                <ScalarProperty Name="ManufacturerPartNo" ColumnName="ManufacturerPartNo" />
+                <ScalarProperty Name="PartNo" ColumnName="PartNo" />
+                <ScalarProperty Name="WebPrice" ColumnName="WebPrice" />
+                <ScalarProperty Name="Brand" ColumnName="Brand" />
+                <ScalarProperty Name="ProductTitle" ColumnName="ProductTitle" />
+                <ScalarProperty Name="BTOItemID" ColumnName="BTOItemID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SectionItemOptions">
+            <EntityTypeMapping TypeName="MainGearWidgetModel.SectionItemOption">
+              <MappingFragment StoreEntitySet="SectionItemOptions">
+                <ScalarProperty Name="BTOItemID" ColumnName="BTOItemID" />
+                <ScalarProperty Name="SectionItemID" ColumnName="SectionItemID" />
+                <ScalarProperty Name="SectionItemOptionID" ColumnName="SectionItemOptionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
